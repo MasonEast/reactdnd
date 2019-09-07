@@ -1,0 +1,7 @@
+/**
+* Created by csz on 2019/8/23
+* 使用antd 的贝塞尔过渡效果 实现左侧过滤菜单面板展开时 表格margin-left的过渡效果
+*/
+.ant-tabs.ant-tabs-card .ant-tabs-card-content > .ant-tabs-tabpane, .ant-tabs.ant-tabs-editable-card .ant-tabs-card-content > .ant-tabs-tabpane{
+  transition:margin-left 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), width 0.3s cubic-bezier(0.7, 0.3, 0.1, 1) !important;
+}

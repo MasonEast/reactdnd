@@ -1,0 +1,12 @@
+// 默认form布局方式,设置校验报错样式
+.ant-form-horizontal{
+  .ant-form-item{
+    margin-bottom: 0;
+  }
+  .ant-form-explain{
+    .vertical-middle();
+    right: 10px; 
+    top: 12px;            //覆盖函数变量内的样式, 12px: 防止transform动画冲突
+    transform: none;
+  }
+}

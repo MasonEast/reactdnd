@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <title>页面展示</title>
+  <script src="../PageConstant.js"></script>
+  <script src="./index.js"></script>
+  <style>
+    .table {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="search">
+      <el-autocomplete
+        class="inline-input"
+        v-model="value"
+        :fetch-suggestions="querySearch"
+        placeholder="请输入内容"
+        @select="handleSelect"
+        @keyup.enter.native="handleInput"
+    ></el-autocomplete>
+    </div>
+    <div class="table">
+      <el-table :data="fullData.length ? fullData : arr" style="width: 100%">
+        <el-table-column prop="value" label="页面名称" width="260" align="center">
+          <div slot-scope="scope">
+            <div><a :href="scope.row['url']" target="_bank">{{scope.row['value']}}</a></div>
+          </div>
+        </el-table-column>
+        <el-table-column  align="center" prop="url" label="页面地址" width="700">
+          <div slot-scope="scope">
+            <span>{{scope.row['url']}}</span>
+          </div>
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        visible: false,
+        value: '',
+        arr: arr,
+        searchList: [],
+        fullData: [],
+        options: []
+      }
+    },
+    mounted() {
+      // 初始化表格数据
+      for (let item of arr) {
+        this.options.push({
+          value: item.value,
+          label: item.value
+        })
+      }
+    },
+
+    methods: {
+      querySearch(queryString, cb) {
+        var arr = this.arr
+        var results = queryString ? arr.filter(this.createFilter(queryString)) : arr
+        // 调用 callback 返回建议列表的数据
+        cb(results)
+        this.searchList = results
+      },
+
+      createFilter(queryString) {
+        return (item) => {
+          return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+      // 返回建议选项
+      handleSelect (search) {
+        this.fullData = []
+        for (let item of arr) {
+          if (item.value.toLowerCase() === search.value.toLowerCase()) {
+            this.fullData.push(item)
+            break
+          }
+        }
+      },
+      // 回车事件
+      handleInput () {
+        this.fullData = []
+        this.fullData = this.searchList
+      }
+    }
+  })
+</script>
+
+</html>
